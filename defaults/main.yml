@@ -1,0 +1,4 @@
+---
+php_upload_max_filesize: "20M"
+php_post_max_size: "20M"
+php_memory_limit: "384M"
