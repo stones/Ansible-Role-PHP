@@ -1,30 +1,31 @@
 ---
-- name: Add PHP 5.6 Repository
-  apt_repository: repo="ppa:ondrej/php5-5.6" state=present
-  register: ppaphp56installed
+- name: Add PHP 7.0 Repository
+  apt_repository: repo="ppa:ondrej/php" state=present
+  register: ppaPhp70Repoinstalled
 
-- name: Install PHP
-  apt: pkg={{ item }} state=latest 
-  when: ppaphp56installed|success
+- name: Install PHP 7
+  apt: pkg={{ item }} state=latest
+  when: ppaPhp70Repoinstalled|success
   with_items:
-    - php5
-    - php5-cli
-    - php5-curl
-    - php5-fpm
-    - php5-gd
-    - php5-imagick
-    - php5-mcrypt
-    - php5-mysql
-    - php5-sqlite
-    - php5-xcache
-    - php5-xmlrpc
+    - mcrypt
+    - php7.0
+    - php7.0-cli
+    - php7.0-curl
+    - php7.0-fpm
+    - php7.0-gd
+    - php7.0-imagick
+    - php7.0-mcrypt
+    - php7.0-mysql
+    - php7.0-mbstring
+    - php7.0-dom
+
 
 - name: Configure PHP
-  template: src=php.ini.j2 dest=/etc/php5/fpm/php.ini
+  template: src=php.ini.j2 dest=/etc/php/7.0/fpm/php.ini
   notify:
     - Reload PHP-FPM
 
 - name: Enable MCRYPT
-  shell: php5enmod mcrypt
+  shell: phpenmod mcrypt
   notify:
   - Reload PHP-FPM
